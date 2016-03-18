@@ -32,13 +32,14 @@ http://tegabrain.com/Selected-Work/Eccentric-Engineering
 Runs on either... 
  * Raspberry Pi 3 
  * Raspberry Pi 2 with [suitable Wifi adapter](http://amzn.to/1UaJ6wX)
-  
- You will also need a 2GB+ SD card. 
+
+ 
+You will also need a 2GB+ SD card. 
 
 1. Download latest plantWAP release image under the `releases` tab above
 2. Burn it onto the SD card like [this](https://www.raspberrypi.org/documentation/installation/installing-images/)
 3. Insert the card into the Pi and turn it on! 
-4. After it boots, connect to the Wifi network that looks like a plant
+4. After it boots, connect to the Wifi network that looks like a little plant (🌱)
 5. To test, you can pull up [this image](http://josh.com/joshpete.gif), which should look like a plant and not two white guys
 
 
@@ -47,6 +48,7 @@ Runs on either...
 1. Only replaces images on https connections. Does nothing to images loaded on https connections.
 2. Only replaces images that end in standard image file extentions (ie. `png`, `gif`, `jpg`, etc). Does nothing ti images that do not follow these naming conventions even if they have an image MIME type. 
 3. It sometimes takes a minute or two before connections from Chrome on Andriod are intercepted. This is likey due to an [Android/Chomium bug](https://bugs.chromium.org/p/chromium/issues/detail?id=339473).
+
 
 Note that some or all of these limitations could likely be mitigated or cured with more effort. 
 
@@ -75,6 +77,4 @@ sudo squid3 -k reconfigure
 7. We again use `image-magick` to resize the selected repalcement to match the original and save the result in `/var/www/html/images` with a file based on which repalcement images we used and the size. Note that this step can cause some delay if the replacement image is large, but hopefully we only need to resize once per replacement image at a given size. 
 8. The script returns the path to the newly generated resized replacement image on the local `appache2` http server on port 81.
 9. `squid3` returns the injected image to the browser!
-10. 
-
 
