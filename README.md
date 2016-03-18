@@ -6,24 +6,22 @@ Transparently injects nature into your browsing experience
 ### Wall Street Journal 
 
 ![WSJ](images/thumbs/WSJ for Plants.png)
-[full size](images/WSJ for Plants.png)
 
 
 ### New York Times
 
 ![NYT](images/thumbs/NYT for Plants.PNG)
-[full size](images/NYT for Plants.PNG)
 
 ### Feedly
 
 ![Feedly](images/thumbs/Feedly for Plants.png)
-[full size](images/Feedly for Plants.png)
 
 ### Match.com
 
 ![Match.com](images/thumbs/Match for Plants.PNG)
-[full size](images/Match for Plants.PNG)
 
+
+(full size versions [here](/images))
 
 ## Background
 
@@ -99,11 +97,11 @@ This will give you a mangled looking thing that you can then paste into the `\et
 
 ### Googles magic proxy pipe
 
-Did you knwo that every http request from Chome running on Android is proxied though Google servers? Me neither! All documented here...
+Did you know that every http request from Chome running on Android is proxied though Google servers? Me neither! All documented here...
 
 https://developer.chrome.com/multidevice/data-compression-for-isps
 
-... except [the cannary does not work as documented](https://bugs.chromium.org/p/chromium/issues/detail?id=339473)!!!
+...except [the cannary does not work as documented](https://bugs.chromium.org/p/chromium/issues/detail?id=339473)!!!
 
 To try and cure this, we...
 
