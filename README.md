@@ -12,16 +12,7 @@ Transparently injects nature into your browsing experience
 
 ![NYT](images/thumbs/NYT for Plants.PNG)
 
-### Feedly
-
-![Feedly](images/thumbs/Feedly for Plants.png)
-
-### Match.com
-
-![Match.com](images/thumbs/Match for Plants.PNG)
-
-
-(full size versions [here](/images))
+(full size examples and more [here](/images))
 
 ## Background
 
