@@ -40,6 +40,8 @@ log "found " $count " source images"
 #list of file extentions to redirect - all lower and each surrounded by spaces
 redirlist=" gif jpg jpeg png ping "
 
+# TODO: Grab ico files too with tiny little images
+
 # keep reading from stdin for more urls to process
 
 while read url rest; do
@@ -58,16 +60,19 @@ while read url rest; do
 		if [[ $url == *"?"* ]]; then 
 
 			# Use bash parameter substitution to remove any args including the ?
-			url=${url%%\?*}
+			baseurl=${url%%\?*}
+
+		else
+
+			baseurl=${url}
 
 		fi
 
 		# Is there a dot anywhere in the URL? We must check becuase next step can't work if there is not
-		if [[ "$url" = *.* ]]; then 
-
+		if [[ "$baseurl" = *.* ]]; then 
 
 			# remove everthing upto and including the .
-			urlextraw=${url##*.}
+			urlextraw=${baseurl##*.}
 
 			#convert to lowercase
 			urlext=${urlextraw,,}
@@ -76,16 +81,12 @@ while read url rest; do
 
 			if [[ $redirlist == *" $urlext "* ]]; then 
 
-				f=`mktemp /tmp/XXXXXXX.$fext` >>/var/log/squid3/sqwrite-$$.log 2>>/var/log/squid3/sqwrite-$$.log
-				wget -4 -O $f "$url" >>/var/log/squid3/sqwrite-$$.log 2>>/var/log/squid3/sqwrite-$$.log
+				#the [0] is to make sure we only get the first frame on animattions
+				isize=$(/usr/bin/identify -ping -format "%wx%h" $url[0])
 
 				# did wget succeed?
 				if [ $? -eq 0 ]; then
-					#the [0] is to make sure we only get the first frame on animattions
-					isize=$(/usr/bin/identify -format "%wx%h" $f[0])
-					# we only care about the size, so delete the file
-					rm $f
-	
+
 					rand=$RANDOM
 		
 					# TODO: Pick via a hash of the filename
