@@ -127,8 +127,16 @@ Easy enough to fix once you ([somehow?](http://unix.stackexchange.com/questions/
 sysctl -w net.ipv4.conf.wlan0.route_localnet=1
 ```
 
+### Getting the dimensions of an image without downloading the whole thing
 
+Since we only need to know how big an images is to make its replacement, it is a waste of time to download the whole 
+thing especially since the dimenstions are typically at the very biging of the file anyway.
 
+Amazingly, ImageMagick has a [built in PING function](http://www.imagemagick.org/Usage/basics/#identify_ping) to this! I never even knew about it before seening it mentioned on 
+[here](http://stackoverflow.com/a/29410339/3152071). IM never ceases to amaze with its handyness. 
+
+As a practical matter it only seems to save a tiny ammount of time on normal sized images on broadband
+connections, but it does make for cleaner code since we don't need to download a temporary file anymore.  
 
 
 
