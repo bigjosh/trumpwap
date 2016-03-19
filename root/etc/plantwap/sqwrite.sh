@@ -50,8 +50,7 @@ while read url rest; do
 
 	if [[ $url == "http://check.googlezip.net/connect" ]]; then 
 
-		echo "$(date +%H%M%S): Chrome DCP came a knocking and we sent them a walking"
-		echo "OK url=\"http://192.168.42.1:81/dont_proxy_me\""
+		echo "OK status=302 url=\"http://192.168.42.1:81/dont_proxy_me\""
 		log "redirected google proxy canary" 
 	
 	else
@@ -117,7 +116,7 @@ while read url rest; do
 					# Will browsers like getting compltyely redirected on images?
 					#echo "OK url=\"http://192.168.42.1:81/images/$iname\""
 
-					log "OK rewrite-url=\"http://127.0.0.1/images/$iname\""
+					log "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
 				else
 					#wget failed, so we should return an error back to the browser
 					echo "ERR"
