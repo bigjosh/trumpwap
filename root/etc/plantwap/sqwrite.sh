@@ -83,10 +83,10 @@ while read url rest; do
 
 			if [[ $redirlist == *" $urlext "* ]]; then 
 
-				f=`mktemp /tmp/XXXXXXX.$fext` >>/var/log/squid3/sqwrite-$$.log 2>>/var/log/squid3/sqwrite-$$.log
+				f=`mktemp /tmp/XXXXXXX.$fext` >>logfile 2>>logfile
 
 				# -4=ipv4 only
-				wget -4 -O $f "$url" >>/var/log/squid3/sqwrite-$$.log 2>>/var/log/squid3/sqwrite-$$.log
+				wget -4 -O $f "$url" >>logfile 2>>logfile
 
 				# did wget succeed?
 				if [ $? -eq 0 ]; then
@@ -111,9 +111,9 @@ while read url rest; do
 					# only make one copy of each resolution and type
 					if [ ! -e $idir/$iname ]; then
 						log "create file" "$iname" 
-						/usr/bin/convert "$sdir/$pick.jpg" -resize $isize^ -gravity center -crop $isize+0+0 "$idir/$iname" >>/var/log/squid3/sqwrite-$$.log 2>>/var/log/squid3/sqwrite-$$.log
+						/usr/bin/convert "$sdir/$pick.jpg" -sample $isize^ -gravity center -crop $isize+0+0 "$idir/$iname" >>logfile 2>>logfile
 						# make sure apache can Read the file
-						chmod a+r "$idir/$iname"  >>/var/log/squid3/sqwrite-$$.log 2>>/var/log/squid3/sqwrite-$$.log
+						chmod a+r "$idir/$iname"  >>logfile 2>>logfile
 					else 
 						log "file exists " "$iname" 
 					fi
