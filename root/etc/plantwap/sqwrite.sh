@@ -37,6 +37,9 @@ count=$(ls -1 "$sdir" | wc -l)
 
 log "found " $count " source images" 
 
+# index into array starting at 0
+imax=$(( $count - 1 ))
+
 #list of file extentions to redirect - all lower and each surrounded by spaces
 redirlist=" gif jpg jpeg png ping "
 
@@ -80,16 +83,27 @@ while read url rest; do
 
 			if [[ $redirlist == *" $urlext "* ]]; then 
 
-				#the [0] is to make sure we only get the first frame on animattions
-				isize=$(/usr/bin/identify -ping -format "%wx%h" $url[0])
+				f=`mktemp /tmp/XXXXXXX.$fext` >>/var/log/squid3/sqwrite-$$.log 2>>/var/log/squid3/sqwrite-$$.log
+
+				# -4=ipv4 only
+				wget -4 -O $f "$url" >>/var/log/squid3/sqwrite-$$.log 2>>/var/log/squid3/sqwrite-$$.log
 
 				# did wget succeed?
 				if [ $? -eq 0 ]; then
 
-					rand=$RANDOM
-		
-					# TODO: Pick via a hash of the filename
-					pick=$(( rand % 6))
+					#the [0] is to make sure we only get the first frame on animattions
+					isize=$(/usr/bin/identify -format "%wx%h" $f[0])
+					# we only care about the size, so delete the file
+					rm $f
+
+					# Pick which target image to map to (always map a given URL to same image)
+					# This monster line takes the ASCII of the last char of the URL mod the number of images
+			
+					#get the last letter before the dot (we checked to ensure there is one above)
+					bareurl="${baseurl%.*}"
+					lastletter="${baseurl: -1}"
+
+					pick=$[ $(echo -n $lastletter | od -An -t uC) % $imax ]
 	
 					# jpg output in IM is much faster, so always output jpg
 					iname="$pick-$isize.jpg"
@@ -120,7 +134,7 @@ while read url rest; do
 				else
 					#wget failed, so we should return an error back to the browser
 					echo "ERR"
-					log "ERR on wget" 
+					log "ERR on indentify" 
 				fi
 
 			else
