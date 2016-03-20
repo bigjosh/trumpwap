@@ -100,21 +100,20 @@ while read url rest; do
 					rm $f
 
 					# Pick which target image to map to (always map a given URL to same image)
-					# This monster line takes the ASCII of the last char of the URL mod the number of images
-			
-					#get the last letter before the dot (we checked to ensure there is one above)
-					bareurl="${baseurl%.*}"
-					lastletter="${baseurl: -1}"
-
-					pick=$[ $(echo -n $lastletter | od -An -t uC) % $imax ]
+					rand=$RANDOM
+		
+					# TODO: Pick via a hash of the filename
+					pick=$(( rand % $imax))
 	
+
 					# jpg output in IM is much faster, so always output jpg
 					iname="$pick-$isize.jpg"
 
 					# only make one copy of each resolution and type
 					if [ ! -e $idir/$iname ]; then
 						log "create file" "$iname" 
-						/usr/bin/convert "$sdir/$pick.jpg" -sample $isize^ -gravity center -crop $isize+0+0 "$idir/$iname" >>"$logfile" 2>>"$logfile"
+						# use local convert which is recompiled to 8 bit quantum
+						/usr/bin/convert "$sdir/$pick.jpg" -sample $isize^ -gravity center -crop $isize+0+0 -quality 40 "$idir/$iname" >>"$logfile" 2>>"$logfile"
 						# make sure apache can Read the file
 						chmod a+r "$idir/$iname"  >>"$logfile" 2>>"$logfile"
 					else 
