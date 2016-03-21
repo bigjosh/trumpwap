@@ -33,15 +33,13 @@ if [ ! -d "$idir" ]; then
 	mkdir "$idir" 
 fi
 
+#get the soruce files
+sfiles=( $(find "$sdir" -type f) )
+
 #how many source images do we have?
-count=$(ls -1 "$sdir" | wc -l)
+scount=${#sfiles[@]}
 
-# TODO: Store the actual file names in an array
-
-log "found " $count " source images" 
-
-# index into array starting at 0
-imax=$(( $count - 1 ))
+log "found " $scount " source images" 
 
 #list of file extentions to redirect - all lower and each surrounded by spaces
 redirlist=" gif jpg jpeg png ping "
@@ -95,26 +93,23 @@ while read url rest; do
 				if [ $? -eq 0 ]; then
 
 					#the [0] is to make sure we only get the first frame on animattions
-					isize=$(/usr/bin/identify -format "%wx%h" $f[0])
+					isize=$(gm identify -format "%wx%h" $f[0])
 					# we only care about the size, so delete the file
 					rm $f
 
-					# Pick which target image to map to (always map a given URL to same image)
+					# Pick one of the source images to map to 
 					rand=$RANDOM
-		
-					# TODO: Pick via a hash of the filename
-					pick=$(( rand % $imax))
+					pick=$(( rand % $scount ))
 	
-
 					# jpg output in IM is much faster, so always output jpg
 					iname="$pick-$isize.jpg"
 
 					# only make one copy of each resolution and type
 					if [ ! -e $idir/$iname ]; then
 						log "create file" "$iname" 
-						# use local convert which is recompiled to 8 bit quantum
-						/usr/bin/convert "$sdir/$pick.jpg" -sample $isize^ -gravity center -crop $isize+0+0 -quality 40 "$idir/$iname" >>"$logfile" 2>>"$logfile"
-						# make sure apache can Read the file
+						# resize source image to mathc the requested one
+						gm convert "${sfiles[pick]}" -sample $isize^ -gravity center -crop $isize+0+0 -quality 40 "$idir/$iname" >>"$logfile" 2>>"$logfile"
+						# make sure apache can read the file
 						chmod a+r "$idir/$iname"  >>"$logfile" 2>>"$logfile"
 					else 
 						log "file exists " "$iname" 
