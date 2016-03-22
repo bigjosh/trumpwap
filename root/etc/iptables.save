@@ -19,7 +19,5 @@ COMMIT
 :OUTPUT ACCEPT [3813:2465766]
 -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A FORWARD -i wlan0 -o eth0 -j ACCEPT
-#Block connect to google proxy. Must be a better way, maybe scan all DNS entries?
--A FORWARD -d 216.58.219.236/32 -i wlan0 -p tcp -m tcp --dport 443 -j DROP
 COMMIT
 # Completed on Fri Mar 18 17:53:12 2016
