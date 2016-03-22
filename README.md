@@ -42,11 +42,14 @@ You will need a blank 2GB+ SD card.
 
 ### Manual installation
 
-1. Start out with a Pi with the [latest Raspberian](https://www.raspberrypi.org/downloads/raspbian/) running on it. I used Jessie.
+This assumes you already have a Pi running with the [latest Raspberian](https://www.raspberrypi.org/downloads/raspbian/) running on it. I used Jessie.
+
+We will only need to download and install the extra stuff that makes a Pi into a plantWAP. 
+
 2. Copy the files in this repository to the Pi. You can do a git clone, or just manually download them.
 3. Run `sudo setup.sh`
+4. Reboot!
  
-
 ## Testing
 
 After it boots, connect to the Wifi network that looks like a little plant (🌱)
@@ -119,4 +122,21 @@ To try and cure this, we intercept the cannary URL with these lines in the rewri
 	
 	else
   ```
+  
+## Future directions
+  
+### ICAP server
+  
+  ICAP would let us mange responses rather than just requests. Then we could...
+  
+  1. Check the MIME type on responses to see if we are dealing with an image. This is much more acurate that checking the filename extention on the request like we do now.
+  2. Deeply modify links in HTML pages to change `https:` links into special man-in-the-middle `http:` links. This would be particularly helpful on the NYTIMES mobile site which (for unfathomable reasons) serves pages as http but the static images inside those pages are https. 
+  
+### Write a full service Netty server
+
+This would let us completely get rid of squid and appache. It could be more efficient becuase we could detect images repsonses from just the `http` header, and then only download enough of an image to get it dimensions from the header. That is all the info we'd need to inject the new image slip-stream  into the response.
+
+### Write a faster image resizer
+
+Graphics Magick is great, but we could likely write a resizer along the lines of [`epeg`](https://github.com/bigjosh/epeg) that could be an order of magnatude faster, especially if we used the new turbo-lib-jpeg stuff. 
 
