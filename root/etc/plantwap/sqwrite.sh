@@ -8,7 +8,7 @@ logfile="$logdir/sqwrite-$$.log"
 # logfile="nul"
 
 if [ ! -d "$logdir" ]; then
-	# make directory for generated images, fail benignly in race condition
+	# make directory for log files, fail benignly in race condition
 	mkdir "$logdir" 
 fi
 
@@ -30,7 +30,7 @@ log "starting sdir=" "$sdir" " idir=" "$idir"
 
 if [ ! -d "$idir" ]; then
 	# make directory for generated images, fails benignly if race condition
-	mkdir "$idir" 
+	sudo mkdir "$idir" 
 fi
 
 #get the soruce files
@@ -93,41 +93,57 @@ while read url rest; do
 				if [ $? -eq 0 ]; then
 
 					#the [0] is to make sure we only get the first frame on animattions
-					isize=$(gm identify -format "%wx%h" $f[0])
+					isize=($(gm identify -format "%w %h" $f[0]))
 					# we only care about the size, so delete the file
 					rm $f
 
-					# Pick one of the source images to map to 
-					rand=$RANDOM
-					pick=$(( rand % $scount ))
-	
-					# jpg output in IM is much faster, so always output jpg
-					iname="$pick-$isize.jpg"
+					ix=${isize[0]}
+					iy=${isize[1]}
+                    
+                    # calculate aspect ratio (we do it times 100 becuase there are no decimals in BASH) 
+                    ia=$(( ( ix * 100 ) / iy ))
 
-					# only make one copy of each resolution and type
-					if [ ! -e $idir/$iname ]; then
-						log "create file" "$iname" 
-						# resize source image to mathc the requested one
-						gm convert "${sfiles[pick]}" -sample $isize^ -gravity center -crop $isize+0+0 -quality 40 "$idir/$iname" >>"$logfile" 2>>"$logfile"
-						# make sure apache can read the file
-						chmod a+r "$idir/$iname"  >>"$logfile" 2>>"$logfile"
+                    # Don't replace tiny images that are probably buttons or icons
+                    # Also dont replace freakishly proprtioned rectangles that are probably banners  
+					if (( ( ix <= 25 ) || ( iy <= 25 ) || ( ia > 300 )  || ( ia < 30 ) )); then
+
+						echo "OK"
+						log "done, image too small or freakishly proportioned w=$ix h=$iy aspect*100=$ia"
+
 					else 
-						log "file exists " "$iname" 
-					fi
 
-					## Now we acactually return the redirect to squid
+                        # Pick one of the source images to map to 
+                        rand=$RANDOM
+                        pick=$(( rand % $scount ))
+        
+                        # jpg output in IM is much faster, so always output jpg
+                        iname="$pick-$isize.jpg"
 
-					# This version serves the mangled image localy so the browser doesn't knwo what hit it
-					# this might be slower since the browser can not do any caching
-					# remeber apache is on port 81 to not interfere with DNAT redirect on 80
-					echo "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
-				
+                        # only make one copy of each resolution and type
+                        if [ ! -e $idir/$iname ]; then
+                            log "create file" "$iname" 
+                            # resize source image to mathc the requested one
+                            gm convert "${sfiles[pick]}" -sample $isize^ -gravity center -crop $isize+0+0 -quality 40 "$idir/$iname" >>"$logfile" 2>>"$logfile"
+                            # make sure apache can read the file
+                            chmod a+r "$idir/$iname"  >>"$logfile" 2>>"$logfile"
+                        else 
+                            log "file exists " "$iname" 
+                        fi
 
-					# This version sends a redirect to the browser so it can cache the results.
-					# Will browsers like getting compltyely redirected on images?
-					#echo "OK url=\"http://192.168.42.1:81/images/$iname\""
+                        ## Now we acactually return the redirect to squid
 
-					log "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
+                        # This version serves the mangled image localy so the browser doesn't knwo what hit it
+                        # this might be slower since the browser can not do any caching
+                        # remeber apache is on port 81 to not interfere with DNAT redirect on 80
+                        echo "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
+                    
+
+                        # This version sends a redirect to the browser so it can cache the results.
+                        # Will browsers like getting completely redirected on images?
+                        #echo "OK url=\"http://192.168.42.1:81/images/$iname\""
+
+                        log "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
+                    fi
 				else
 					#wget failed, so we should return an error back to the browser
 					echo "ERR"
