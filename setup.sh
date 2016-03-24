@@ -6,11 +6,11 @@ sudo apt-get -y install squid3
 sudo apt-get -y install apache2
 sudo apt-get -y install graphicsmagick
 sudo apt-get -y install hostapd
-sudo apt-get -y isc-dhcp-server
+sudo apt-get -y install isc-dhcp-server
 
 #copy out files where they all go
-sudo copy etc/* /etc/
-
+sudo cp -r root/etc/* /etc/
+ 
 #make the squid rewrite helper executable
 sudo chmod +x /etc/plantwap/sqwrite.sh
 
