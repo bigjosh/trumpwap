@@ -1,12 +1,12 @@
-sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get -y update
+sudo apt-get -y upgrade
 
 #install required packages
-sudo apt-get install squid3
-sudo apt-get install apache2
-sudo apt-get install graphicsmagick
-sudo apt-get install hostapd
-sudo apt-get isc-dhcp-server
+sudo apt-get -y install squid3
+sudo apt-get -y install apache2
+sudo apt-get -y install graphicsmagick
+sudo apt-get -y install hostapd
+sudo apt-get -y isc-dhcp-server
 
 #copy out files where they all go
 sudo copy etc/* /etc/
