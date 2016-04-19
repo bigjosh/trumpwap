@@ -57,7 +57,7 @@ done
 
 
 #list of file extentions to redirect - all lower and each surrounded by spaces
-redirlist=" gif jpg jpeg png ping webp"
+redirlist=" gif jpg jpeg png ping webp "
 
 # TODO: Grab ico files too with tiny little images
 
