@@ -44,17 +44,19 @@ You will need a blank 2GB+ SD card.
 
 This assumes you already have a Pi running with the [latest Raspberian](https://www.raspberrypi.org/downloads/raspbian/) running on it. I used Jessie.
 
-We will only need to download and install the extra stuff that makes a Pi into a plantWAP. 
+We will only need to download and install the extra stuff that makes a Pi into a plantWAP. (this can take a long time depending on internet connection)
   ```
 sudo git clone https://github.com/bigjosh/plantWAP.git
+cd plantWAP
 sudo ./setup.sh
 ```
 
 ### Updates
 
-You can update to the latest version by copying the latest files (typically with a `git pull`) and runnning...
+You can update to the latest version without rinstalling via `update`...
   ```
-sudo git clone https://github.com/bigjosh/plantWAP.git
+cd plantWAP  
+sudo git pull
 sudo ./update.sh
 ```
 
