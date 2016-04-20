@@ -47,10 +47,15 @@ This assumes you already have a Pi running with the [latest Raspberian](https://
 We will only need to download and install the extra stuff that makes a Pi into a plantWAP. 
 
 2. Copy the files in this repository to the Pi. You can do a git clone, or just manually download them.
-3. `chmod +x setup.sh` 
 3. `sudo ./setup.sh`
-4. Reboot!
- 
+
+### Updates
+
+You can update to the latest version by copying the latest files (typically with a `git pull`) and runnning...
+
+2. Copy the files in this repository to the Pi. You can do a git clone, or just manually download them.
+3. `sudo ./setup.sh`
+
 ### Don't forget maybees
 
 1. Change the default password using `raspi-config`
