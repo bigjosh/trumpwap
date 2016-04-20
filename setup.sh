@@ -14,5 +14,5 @@ sudo update-rc.d hostapd enable
 sudo update-rc.d apache2 enable
 sudo update-rc.d squid3 enable
 
-chmod +x update.sh
+sudo chmod +x update.sh
 ./update.sh
