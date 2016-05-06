@@ -1,5 +1,5 @@
-# plantWAP
-Transparently injects nature into your browsing experience
+# TrumpMeWAP
+Transparently injects (even) more Trump into your online experience
 
 ## Examples
 
