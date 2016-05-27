@@ -13,6 +13,14 @@ sudo service cachefilesd stop
 
 #copy out files where they all go
 sudo cp -r root/etc/* /etc/
+
+#grab a fresh set of trump images
+sdir="/etc/trumpwap/images"
+
+sudo rm "$sdir/*"
+while read p; do
+  sudo wget -O $(tmpfile -d "$sdir") $p 
+done <urls.txt
  
 #make the squid rewrite helper executable
 sudo chmod +x /etc/trumpwap/sqwrite.sh

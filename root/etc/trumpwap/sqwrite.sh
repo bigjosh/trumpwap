@@ -21,7 +21,7 @@ function log(){
 
 
 #soruce for images to inject
-sdir="/etc/plantwap/images"
+sdir="/etc/trumpwap/images"
 
 #location to cache resized images
 idir="/var/www/html/images"
