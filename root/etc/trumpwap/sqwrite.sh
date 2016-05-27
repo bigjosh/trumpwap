@@ -87,7 +87,7 @@ while read url rest; do
 		fi
 
 		# Is there a dot anywhere in the URL? We must check becuase next step can't work if there is not
-		if [[ "$baseurl" = *.* ]]; then 
+		if [[ "$baseurl" == *.* ]]; then 
 
 			# remove everthing upto and including the .
 			urlextraw=${baseurl##*.}
@@ -108,7 +108,7 @@ while read url rest; do
                
                 ## Now we acactually return the redirect to squid
 
-                # This version serves the mangled image localy so the browser doesn't knwo what hit it
+                # This version serves the mangled image localy so the browser doesn't know what hit it
                 # this might be slower since the browser can not do any caching
                 # remeber apache is on port 81 to not interfere with DNAT redirect on 80
                 echo "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
