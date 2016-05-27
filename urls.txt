@@ -1,3 +1,7 @@
+# image URLs. The images must be jpg files, and should be relatively small.
+# I generate this list using a google search like...
+# https://www.google.com/search?q=trump&biw=2560&bih=1456&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjbvPTpw_rMAhUFOD4KHcbWDDcQ_AUICCgD
+# ...and then link to the google thumbnail generator since it will make the images smaller and is fast. 
 https://tse1.mm.bing.net/th?&id=OIP.M798f772860e1331b4124c3eed5d4b811o1&w=300&h=237&c=0&pid=1.9&rs=0&p=0&r=0
 https://tse1.mm.bing.net/th?&id=OIP.Mdc7e1790cee6b356a8fbead6cc24e716o2&w=299&h=220&c=0&pid=1.9&rs=0&p=0&r=0
 https://tse1.mm.bing.net/th?&id=OIP.M4c8434bb6aa231bb64a8fee61615caf2o1&w=306&h=170&c=0&pid=1.9&rs=0&p=0&r=0

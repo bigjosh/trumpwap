@@ -14,12 +14,16 @@ sudo service cachefilesd stop
 #copy out files where they all go
 sudo cp -r root/etc/* /etc/
 
-#grab a fresh set of trump images
+#grab a fresh set of trump images from urls.txt
 sdir="/etc/trumpwap/images"
 
-sudo rm "$sdir/*"
+sudo mkdir "$sdir"
+sudo rm "$sdir"/*
 while read p; do
-  sudo wget -O $(tmpfile -d "$sdir") $p 
+  if [[ $p != "#"* ]]; then 
+       # comment lines start with #
+       sudo wget -A jpg -O $(sudo tempfile -d "$sdir" -s ".jpg") "$p"
+   fi
 done <urls.txt
  
 #make the squid rewrite helper executable
