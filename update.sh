@@ -24,7 +24,10 @@ sudo rm "$sdir"/*
 while read p; do
   if [[ $p != "#"* ]]; then 
        # skip comment lines 
-       sudo wget -A jpg -O $(sudo tempfile -d "$sdir" -s ".jpg") "$p"
+       fname=$(sudo tempfile -d "$sdir" -s ".jpg")
+       sudo wget -A jpg -O "$fname" "$p"
+       # make sure rewrite script can read these images
+       chmod a+r "$fname"
    fi
 done <urls.txt
  
