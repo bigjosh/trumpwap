@@ -27,7 +27,7 @@ while read p; do
        fname=$(sudo tempfile -d "$sdir" -s ".jpg")
        sudo wget -A jpg -O "$fname" "$p"
        # make sure rewrite script can read these images
-       chmod a+r "$fname"
+       sudo chmod a+r "$fname"
    fi
 done <urls.txt
  
