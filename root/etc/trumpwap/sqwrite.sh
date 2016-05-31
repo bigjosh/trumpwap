@@ -152,13 +152,8 @@ while read url rest; do
 			else
 				echo "OK"
 				log "done, no redirect"
-			fi                
+			fi                        
         
-        
-			else
-				echo "OK"
-				log "done, no redirect"
-			fi
 		else
 
 			echo "OK"
