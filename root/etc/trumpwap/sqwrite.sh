@@ -116,13 +116,14 @@ while read url rest; do
                         pick=$(( chk % $scount ))
         
                         # jpg output in IM is much faster, so always output jpg
-                        iname="$pick-$isize.jpg"
+                        isizestr="$ix"x"$iy"                        
+                        iname="$pick-$isizestr.jpg"
 
                         # only make one copy of each resolution and type
                         if [ ! -e $idir/$iname ]; then
                             log "create file" "$iname" 
                             # resize source image to mathc the requested one
-                            gm convert "${sfiles[pick]}" -sample $isize^ -gravity center -crop $isize+0+0 -quality 40 "$idir/$iname" >>"$logfile" 2>>"$logfile"
+                            gm convert "${sfiles[pick]}" -sample $isizestr^ -gravity center -crop $isizestr+0+0 -quality 40 "$idir/$iname" >>"$logfile" 2>>"$logfile"
                             # make sure apache can read the file
                             chmod a+r "$idir/$iname"  >>"$logfile" 2>>"$logfile"
                         else 
