@@ -113,7 +113,8 @@ while read url rest; do
 						echo "OK"
 						log "done, image too small or freakishly proportioned w=$ix h=$iy aspect*100=$ia"
 
-
+                    else
+                        
                         # Pick one of the source images based on a hash of the URL
                         # so a given URL will always map to the same trump images
                        
@@ -141,7 +142,7 @@ while read url rest; do
                         # this might be slower since the browser can not do any caching
                         # remeber apache is on port 81 to not interfere with DNAT redirect on 80
                         echo "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
-                    
+                                        
 
                         # This version sends a redirect to the browser so it can cache the results.
                         # Will browsers like getting completely redirected on images?
