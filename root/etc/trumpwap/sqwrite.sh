@@ -52,7 +52,13 @@ while read url rest; do
 		echo "OK status=302 url=\"http://192.168.42.1:81/dont_proxy_me\""
 		log "redirected google proxy canary" 
 	
-	else
+	elif [[ $url == "http://images.match.com/match/myhome/yml/bg-question.png" ]]; then
+ 
+        # I know this is extra overhead on every GET, but it is worth it to be able to pick both trumps
+		echo "OK"
+		log "let match.com question mark though"  
+    
+    else 
 
 		# does the URL have a param list starting with a question mark?
 		if [[ $url == *"?"* ]]; then 
@@ -107,7 +113,6 @@ while read url rest; do
 						echo "OK"
 						log "done, image too small or freakishly proportioned w=$ix h=$iy aspect*100=$ia"
 
-					else 
 
                         # Pick one of the source images based on a hash of the URL
                         # so a given URL will always map to the same trump images
