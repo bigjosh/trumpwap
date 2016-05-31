@@ -52,7 +52,7 @@ while read url rest; do
 		echo "OK status=302 url=\"http://192.168.42.1:81/dont_proxy_me\""
 		log "redirected google proxy canary" 
 	
-	elif [[ $url == "http://images.match.com/match/myhome/yml/bg-question.png" ]]; then
+	else if [[ $url == "http://images.match.com/match/myhome/yml/bg-question.png" ]]; then
  
         # I know this is extra overhead on every GET, but it is worth it to be able to pick both trumps
 		echo "OK"
