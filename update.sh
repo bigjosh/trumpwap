@@ -13,13 +13,26 @@ sudo service cachefilesd stop
 #copy out files where they all go
 sudo cp -r root/etc/* /etc/
 
-#grab a fresh set of trump images from urls.txt
+#soruce for images to inject
 sdir="/etc/trumpwap/images"
 
+#location to cache resized images
+idir="/var/www/html/images"
+
+
 sudo mkdir -p "$sdir"
+#give the rewriter permision to copy images from local stroage to the local web server dir
+sudo chown -c proxy "$sdir"
+
+sudo mkdir -p "$idir"
+sudo chown -c proxy "$idir"
+
 
 # clear out any stale images
 sudo rm "$sdir"/*
+sudo rm "$idir"/*
+
+#grab a fresh set of trump images from urls.txt
 
 while read p; do
   if [[ $p != "#"* ]]; then 
@@ -34,10 +47,6 @@ done <urls.txt
 #make the squid rewrite helper executable
 sudo chmod +x /etc/trumpwap/sqwrite.sh
 
-#give the rewriter permision to copy images from local stroage to the local web server dir
-sudo chown -c proxy "$sdir"
-sudo mkdir /var/www/html/images/
-sudo chown -c proxy /var/www/html/images/
 #note that sqwrite.sh will copy images into /var/www/html/images/
 
 #set all our services to run on boot up
