@@ -13,6 +13,9 @@ sudo service cachefilesd stop
 #copy out files where they all go
 sudo cp -r root/etc/* /etc/
 
+
+
+
 #soruce for images to inject
 sdir="/etc/trumpwap/images"
 
@@ -48,6 +51,10 @@ done <urls.txt
  
 #make the squid rewrite helper executable
 sudo chmod +x /etc/trumpwap/sqwrite.sh
+
+#make LED start script executible
+sudo chmod +x /etc/init.d/exportleds.sh
+
 
 #note that sqwrite.sh will copy images into /var/www/html/images/
 
