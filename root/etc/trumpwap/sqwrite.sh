@@ -29,11 +29,11 @@ leddev[1]="/sys/class/gpio/gpio18/value"
 lcount=2
 
 
-sudo -c "echo 17 >/sys/class/gpio/export"
-sudo -c "echo 18 >/sys/class/gpio/export"
+sudo sh -c "echo 17 >/sys/class/gpio/export"
+sudo sh -c "echo 18 >/sys/class/gpio/export"
 sleep 1
-sudo -c "echo out >/sys/class/gpio/gpio17/direction"
-sudo -c "echo out >/sys/class/gpio/gpio18/direction"
+sudo sh -c "echo out >/sys/class/gpio/gpio17/direction"
+sudo sh -c "echo out >/sys/class/gpio/gpio18/direction"
 
 
 #soruce for images to inject
@@ -141,7 +141,7 @@ while read url rest; do
 						#pick one of the LEDs and turn it on to indicate a sub
 						ledpick=$(( chk % lcount )) 
 												
-						sudo sudo sh -c "echo 0 >${leddev[ledpick]}"
+						sudo sudo sh -c "echo 1 >${leddev[ledpick]}"
 
 						# jpg output in IM is much faster, so always output jpg
 						isizestr="$ix"x"$iy"                        
