@@ -27,6 +27,8 @@ sudo chown -c proxy "$sdir"
 sudo mkdir -p "$idir"
 sudo chown -c proxy "$idir"
 
+#Let the proxy redirect children blink the LEDs 
+sudo usermod -aG gpio proxy
 
 # clear out any stale images
 sudo rm "$sdir"/*
