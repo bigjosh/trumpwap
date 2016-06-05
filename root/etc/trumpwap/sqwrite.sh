@@ -144,7 +144,7 @@ while read url rest; do
 						pick=$(( chk % $scount ))
 						
 						#pick one of the LEDs and turn it on to indicate a sub
-						ledpick = (( chk % lcount )) 
+						ledpick =$(( chk % lcount )) 
 												
 						echo "1" > "$leddev[ledpick]"
 
