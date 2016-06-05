@@ -20,6 +20,27 @@ function log(){
 }
 
 
+# Enable output on pins GPIO17 & GPIO18 for blinking LED eyes
+# I know this will needlessly be repeated in all but the 1st child process. So what. 
+# note the sleep 1 gives the OS time to complete the action
+
+leddev[0]="/sys/class/gpio/gpio17/value"
+leddev[1]="/sys/class/gpio/gpio18/value"
+lcount=2
+
+
+sudo echo "17" > /sys/class/gpio/export
+sleep 1
+sudo echo "out" > /sys/class/gpio/gpio17/direction
+sleep 1
+
+sudo echo "18" > /sys/class/gpio/export
+sleep 1
+sudo echo "out" > /sys/class/gpio/gpio18/direction
+sleep 1
+
+
+
 #soruce for images to inject
 sdir="/etc/trumpwap/images"
 
@@ -85,7 +106,7 @@ while read url rest; do
 
 			if [[ $redirlist == *" $urlext "* ]]; then 
 
-                # Here is the magic - pick a trump image and resize if to mathc the image bring replaced.
+                		# Here is the magic - pick a trump image and resize if to mathc the image bring replaced.
                 
 				f=`mktemp /tmp/XXXXXXX.$fext` >>"$logfile" 2>>"$logfile"
 
@@ -100,56 +121,67 @@ while read url rest; do
 					# we only care about the size, so delete the file
 					rm $f
 
-					ix=${isize[0]}
-					iy=${isize[1]}
+			    		ix=${isize[0]}
+				    	iy=${isize[1]}
                     
-                    # calculate aspect ratio (we do it times 100 becuase there are no decimals in BASH) 
-                    ia=$(( ( ix * 100 ) / iy ))
+				    	# calculate aspect ratio (we do it times 100 becuase there are no decimals in BASH) 
+				    	ia=$(( ( ix * 100 ) / iy ))
 
-                    # Don't replace tiny images that are probably buttons or icons
-                    # Also dont replace freakishly proprtioned rectangles that are probably banners  
+				    	# Don't replace tiny images that are probably buttons or icons
+				    	# Also dont replace freakishly proprtioned rectangles that are probably banners  
+				    	
 					if (( ( ix <= 25 ) || ( iy <= 25 ) || ( ia > 300 )  || ( ia < 30 ) )); then
 
 						echo "OK"
 						log "done, image too small or freakishly proportioned w=$ix h=$iy aspect*100=$ia"
 
-                    else
-                        
-                        # Pick one of the source images based on a hash of the URL
-                        # so a given URL will always map to the same trump images
-                       
-                        chk=$(echo "$baseurl" |  cksum  | cut -d " " -f 1 )                       
-                        pick=$(( chk % $scount ))
-        
-                        # jpg output in IM is much faster, so always output jpg
-                        isizestr="$ix"x"$iy"                        
-                        iname="$pick-$isizestr.jpg"
+                    			else
 
-                        # only make one copy of each resolution and type
-                        if [ ! -e $idir/$iname ]; then
-                            log "create file" "$iname" 
-                            # resize source image to mathc the requested one
-                            gm convert "${sfiles[pick]}" -sample $isizestr^ -gravity center -crop $isizestr+0+0 -quality 40 "$idir/$iname" >>"$logfile" 2>>"$logfile"
-                            # make sure apache can read the file
-                            chmod a+r "$idir/$iname"  >>"$logfile" 2>>"$logfile"
-                        else 
-                            log "file exists " "$iname" 
-                        fi
+						# Pick one of the source images based on a hash of the URL
+						# so a given URL will always map to the same trump images
 
-                        ## Now we acactually return the redirect to squid
+						chk=$(echo "$baseurl" |  cksum  | cut -d " " -f 1 )                       
+						pick=$(( chk % $scount ))
+						
+						#pick one of the LEDs and turn it on to indicate a sub
+						ledpick = (( chk % lcount )) 
+												
+						echo "1" > "$leddev[ledpick]"
 
-                        # This version serves the mangled image localy so the browser doesn't knwo what hit it
-                        # this might be slower since the browser can not do any caching
-                        # remeber apache is on port 81 to not interfere with DNAT redirect on 80
-                        echo "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
-                                        
+						# jpg output in IM is much faster, so always output jpg
+						isizestr="$ix"x"$iy"                        
+						iname="$pick-$isizestr.jpg"
 
-                        # This version sends a redirect to the browser so it can cache the results.
-                        # Will browsers like getting completely redirected on images?
-                        #echo "OK url=\"http://192.168.42.1:81/images/$iname\""
+						# only make one copy of each resolution and type
+						if [ ! -e $idir/$iname ]; then
+						    log "create file" "$iname" 
+						    # resize source image to mathc the requested one
+						    gm convert "${sfiles[pick]}" -sample $isizestr^ -gravity center -crop $isizestr+0+0 -quality 40 "$idir/$iname" >>"$logfile" 2>>"$logfile"
+						    # make sure apache can read the file
+						    chmod a+r "$idir/$iname"  >>"$logfile" 2>>"$logfile"
+						else 
+						    log "file exists " "$iname" 
+						fi
 
-                        log "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
-                    fi
+						## Now we acactually return the redirect to squid
+
+						# This version serves the mangled image localy so the browser doesn't knwo what hit it
+						# this might be slower since the browser can not do any caching
+						# remeber apache is on port 81 to not interfere with DNAT redirect on 80
+						echo "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
+
+
+						# This version sends a redirect to the browser so it can cache the results.
+						# Will browsers like getting completely redirected on images?
+						#echo "OK url=\"http://192.168.42.1:81/images/$iname\""
+
+						log "OK rewrite-url=\"http://127.0.0.1:81/images/$iname\""
+						
+						# turn off LED
+						# note that LEDs can get clobbered, but should always end up off when all children finish
+						echo "0" > "$leddev[ledpick]"
+
+                   			fi
 				else
 					#wget failed, so we should return an error back to the browser
 					echo "ERR"
