@@ -141,7 +141,7 @@ while read url rest; do
 						#pick one of the LEDs and turn it on to indicate a sub
 						ledpick=$(( chk % lcount )) 
 												
-						sudo sudo sh -c "echo 1 >${leddev[ledpick]}"
+						sudo sh -c "echo 1 >${leddev[ledpick]}"
 
 						# jpg output in IM is much faster, so always output jpg
 						isizestr="$ix"x"$iy"                        
@@ -174,7 +174,7 @@ while read url rest; do
 						
 						# turn off LED
 						# note that LEDs can get clobbered, but should always end up off when all children finish
-						sudo sudo sh -c "echo 0 >${leddev[ledpick]}"
+						sudo sh -c "echo 0 >${leddev[ledpick]}"
 
                    			fi
 				else
