@@ -21,20 +21,10 @@ function log(){
 
 
 # Enable output on pins GPIO17 & GPIO18 for blinking LED eyes
-# I know this will needlessly be repeated in all but the 1st child process. So what. 
-# note the sleep 1 gives the OS time to complete the action
 
 leddev[0]="/sys/class/gpio/gpio17/value"
 leddev[1]="/sys/class/gpio/gpio18/value"
 lcount=2
-
-
-echo 17 >/sys/class/gpio/export
-echo 18 >/sys/class/gpio/export
-sleep 1
-echo out >/sys/class/gpio/gpio17/direction
-echo out >/sys/class/gpio/gpio18/direction
-
 
 #soruce for images to inject
 sdir="/etc/trumpwap/images"
