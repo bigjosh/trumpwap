@@ -1,4 +1,15 @@
 #!/bin/bash
+### BEGIN INIT INFO
+# Provides:          exportleds
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: exportleds
+# Description:       export LEDs on pins 17 and 18 so we can blink them
+### END INIT INFO
+
+
 
 #export the leds so the squid redirectors can blink them
 #We only need to do this once per boot
