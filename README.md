@@ -10,7 +10,7 @@ Transparently injects (even) more Trump into your online experience
 
 ### BBC World Service
 
-![NYT](images/thumbs/bbc.jpg)
+![NYT](images/thumbs/bbc-thumb.jpg)
 
 (full size images [here](/images))
 
