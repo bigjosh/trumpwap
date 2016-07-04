@@ -16,9 +16,13 @@ Transparently injects (even) more Trump into your online experience
 
 ## Background
 
-Created for this project...
+Technology was orginally created for this project...
 
 http://tegabrain.com/Selected-Work/Eccentric-Engineering
+
+...and code is a fork of this project...
+
+https://github.com/bigjosh/plantWAP
 
 ## Hardware Requirements
 
@@ -34,7 +38,7 @@ This is the easiest way to get running, but requres a very large (1+GB) download
  
 You will need a blank 2GB+ SD card. 
 
-1. Download latest plantWAP release image under the `releases` tab above
+1. Download latest trumpWAP release image under the `releases` tab above
 2. Burn it onto the SD card like [this](https://www.raspberrypi.org/documentation/installation/installing-images/)
 3. Insert the card into the Pi and turn it on! 
 4. (Optional) [Expand the file system](http://elinux.org/RPi_Resize_Flash_Partitions) so you have more room for logs and generated images.
@@ -46,8 +50,8 @@ This assumes you already have a Pi running with the [latest Raspberian](https://
 
 We will only need to download and install the extra stuff that makes a Pi into a plantWAP. (this can take a long time depending on internet connection)
   ```
-sudo git clone https://github.com/bigjosh/plantWAP.git
-cd plantWAP
+sudo git clone https://github.com/bigjosh/trumpwap.git
+cd trumpwap
 sudo ./setup.sh
 ```
 
@@ -55,7 +59,7 @@ sudo ./setup.sh
 
 You can update to the latest version without rinstalling via `update`...
   ```
-cd plantWAP  
+cd trumpwap
 sudo git pull
 sudo ./update.sh
 ```
@@ -67,9 +71,9 @@ sudo ./update.sh
 
 ## Testing
 
-After it boots, connect to the Wifi network that looks like a little plant (🌱)
+After it boots, connect to the Wifi `trumpWAP` network.
 
-To test, you can pull up [this image](http://josh.com/joshpete.gif), which should look like a plant and not two white guys
+To test, you can pull up [this image](http://josh.com/joshpete.gif), which should look like trump and not two white guys.
 
 ## Limitations
 
@@ -81,13 +85,12 @@ Note that some or all of these limitations could likely be mitigated or cured wi
 
 ## Customization
 
-You can replace the images in `/etc/plantwap/images` with anything you want (does not need to be plants). 
+You can replace the image links in `urls.txt` with anything you want (does not need to be trumps). 
 
 * If you use small or low res images, they will look crappy when they are scaled to repalce large source images
 * If you use large and hi res images, they will take longer to resize so there will be a longer delay the first time an image is injected at a given size
 
-
-After you change the images, you will should clear the cache and restart the server by entering...
+After you change the images, you need to clear the cache and restart the server by entering...
 
 ```
 sudo rm /var/www/html/images/*
@@ -108,16 +111,6 @@ sudo squid3 -k reconfigure
 9. `squid3` returns the injected image to the browser!
 
 ## Some Tricky Parts
-
-###  Unicode SSID
-
-To make an SSID with a unicode char in it, enter...
-
-`echo -e "\x1f331"`
-
-...where `1f331` is the hex of the unicode you want (`1f331` is a plant). 
-
-This will give you a mangled looking thing that you can then paste into the `\etc\hostapd\hostapd.conf` SSID field. 
 
 ### Googles magic proxy pipe
 
