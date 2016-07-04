@@ -5,12 +5,12 @@ Transparently injects (even) more Trump into your online experience
 
 ### The New Yorker
 
-![WSJ](images/thumbs/newyorker-thumb.png)
+![New Yorker](images/thumbs/newyorker-thumb.png)
 
 
 ### BBC World Service
 
-![NYT](images/thumbs/bbc-thumb.jpg)
+![BBC](images/thumbs/bbc-thumb.jpg)
 
 (full size images [here](/images))
 
