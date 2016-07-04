@@ -1,4 +1,4 @@
-# TrumpMeWAP
+# trumpWAP
 Transparently injects (even) more Trump into your online experience
 
 ## Examples
