@@ -48,7 +48,7 @@ You will need a blank 2GB+ SD card.
 
 This assumes you already have a Pi running with the [latest Raspberian](https://www.raspberrypi.org/downloads/raspbian/) running on it. I used Jessie.
 
-We will only need to download and install the extra stuff that makes a Pi into a plantWAP. (this can take a long time depending on internet connection)
+We will only need to download and install the extra stuff that makes a Pi into a trumpWAP. (this can take a long time depending on internet connection)
   ```
 sudo git clone https://github.com/bigjosh/trumpwap.git
 cd trumpwap
@@ -102,11 +102,11 @@ sudo squid3 -k reconfigure
 1. A standard `hostapd` manages the Wifi access point
 2. An `iptables` redirect sends all `http` connections to a local `squid3` server 
 2. The `squid3` server is set up to run as a `transparent` proxy on port 3128. It runs the url_rewrite_program `/etc/sqrewrite.sh` on each incoming request.
-3. The `sqrewrite.sh` script checks the file extention on each request to see if it ends in a common image extention. If not, it passed the request unchanged.
+3. The `sqrewrite.sh` script checks the file extention on each request to see if it ends in a common image extention. If not, it passes the request unchanged.
 4. If the request was for an image, then we go out and grab the requested image using `wget` and save it to a temp file. 
 5. We use `graphics-magick` to inspect the downloaded image and get the dimensions.
-6. We randomly pick one of the repalcement images in `/etc/plantwap/images` to inject. 
-7. We again use `graphics-magick` to resize the selected repalcement to match the original and save the result in `/var/www/html/images` with a file based on which repalcement images we used and the size. Note that this step can cause some delay if the replacement image is large, but hopefully we only need to resize once per replacement image at a given size. 
+6. We randomly pick one of the repalcement images in `/etc/trumpwap/images` to inject. 
+7. We again use `graphics-magick` to resize the selected repalcement to match the original and save the result in `/var/www/html/images` with a file name based on which repalcement images we used and the size. Note that this step can cause some delay if the replacement image is large, but hopefully we only need to resize once per replacement image at a given size. 
 8. The script returns the path to the newly generated resized replacement image on the local `appache2` http server on port 81.
 9. `squid3` returns the injected image to the browser!
 
@@ -147,4 +147,10 @@ This would let us completely get rid of squid and appache. It could be more effi
 ### Write a faster image resizer
 
 Graphics Magick is great, but we could likely write a resizer along the lines of [`epeg`](https://github.com/bigjosh/epeg) that could be an order of magnatude faster, especially if we used the new turbo-lib-jpeg stuff. 
+
+### Cloud-based injection
+
+Basically rewrite the google DCP server to replace images rather tha compress them. This could end up being faster than direct access. 
+
+
 
