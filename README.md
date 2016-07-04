@@ -3,16 +3,16 @@ Transparently injects (even) more Trump into your online experience
 
 ## Examples
 
-### Wall Street Journal 
+### The New Yorker
 
-![WSJ](images/thumbs/WSJ for Plants.png)
+![WSJ](images/thumbs/newyorker-thumb.png)
 
 
-### New York Times
+### BBC World Service
 
-![NYT](images/thumbs/NYT for Plants.PNG)
+![NYT](images/thumbs/bbc.jpg)
 
-(full size examples and more [here](/images))
+(full size images [here](/images))
 
 ## Background
 
