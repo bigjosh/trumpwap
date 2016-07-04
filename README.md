@@ -73,7 +73,7 @@ sudo ./update.sh
 
 After it boots, connect to the Wifi `trumpWAP` network.
 
-To test, you can pull up [this image](http://josh.com/joshpete.gif), which should look like trump and not two white guys.
+To test, you can pull up [this image](http://josh.com/joshpete.gif), which should look like trump and not two loosers.
 
 ## Limitations
 
